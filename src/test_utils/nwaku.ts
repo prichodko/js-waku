@@ -11,7 +11,7 @@ import { Multiaddr, multiaddr } from "multiaddr";
 import PeerId from "peer-id";
 import portfinder from "portfinder";
 
-import { hexToBytes } from "../lib/utils";
+import { bytesToHex, hexToBytes } from "../lib/utils";
 import { DefaultPubSubTopic } from "../lib/waku";
 import { WakuMessage } from "../lib/waku_message";
 import * as proto from "../proto/waku/v2/message";
@@ -402,28 +402,6 @@ export function defaultArgs(): Args {
     websocketSupport: true,
     logLevel: LogLevel.Debug,
   };
-}
-
-export function strToHex(str: string): string {
-  let hex: string;
-  try {
-    hex = unescape(encodeURIComponent(str))
-      .split("")
-      .map(function (v) {
-        return v.charCodeAt(0).toString(16);
-      })
-      .join("");
-  } catch (e) {
-    hex = str;
-    console.log("invalid text input: " + str);
-  }
-  return hex;
-}
-
-export function bytesToHex(buffer: Uint8Array): string {
-  return Array.prototype.map
-    .call(buffer, (x) => ("00" + x.toString(16)).slice(-2))
-    .join("");
 }
 
 interface RpcInfoResponse {
