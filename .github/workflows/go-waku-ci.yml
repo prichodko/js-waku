@@ -1,0 +1,68 @@
+name: CI-go-waku
+
+on:
+  push:
+    branches:
+      - "master"
+      - "staging"
+      - "trying"
+  pull_request:
+
+jobs:
+  build_and_test:
+    env:
+      BUF_VERSION: "0.56.0"
+      GO_WAKU_VERSION: "0.0.1"
+      WAKU_SERVICE_NODE_DIR: ./go-waku
+      WAKU_SERVICE_NODE_BIN: ./go-waku/waku
+    strategy:
+      matrix:
+        node: [16]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2.3.3
+
+      - name: Get go-waku
+        shell: bash
+        run: |
+          pwd
+          mkdir -p go-waku/
+          cd go-waku
+          wget "https://github.com/status-im/go-waku/releases/download/${GO_WAKU_VERSION}/waku${GO_WAKU_VERSION}.linux-amd64"
+          mv waku${GO_WAKU_VERSION}.linux-amd64 waku
+          chmod +x waku
+
+      - name: Ensure go-waku is ready
+        shell: bash
+        run: |
+          uname -a
+          cd go-waku
+          ./waku --help
+
+      - name: Install NodeJS
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Cache npm cache
+        uses: actions/cache@v2
+        with:
+          path: ~/.npm
+          key: node-${{ matrix.os }}-${{ matrix.node }}-v1-${{ hashFiles('**/package-lock.json') }}
+
+      - name: install using npm ci
+        uses: bahmutov/npm-install@v1
+
+      - name: test
+        env:
+          DEBUG: "waku:nim-waku*,waku:test*"
+        run: npm run test
+
+      - name: Upload logs on failure
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: go-waku-logs
+          path: log/
