@@ -2,7 +2,7 @@
   "compilerOptions": {
     "incremental": true,
     "target": "es2015",
-    "outDir": "build/main",
+    "outDir": "build/esm",
     "rootDir": "src",
     "moduleResolution": "node",
     "module": "es2020",

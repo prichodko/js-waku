@@ -27,7 +27,7 @@
     "prepare": "husky install",
     "build": "rimraf ./build; run-p build:**",
     "build:cjs": "tsc --module commonjs --target es2020 --outDir build/main",
-    "build:esm": "tsc --outDir build/esm",
+    "build:esm": "tsc",
     "build:umd": "webpack --config webpack.config.cjs",
     "build:umd:min": "webpack --config webpack.config.min.cjs",
     "build:umd:bundle": "webpack --config webpack.config.bundle.cjs",
