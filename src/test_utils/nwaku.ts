@@ -355,6 +355,7 @@ export class Nwaku {
     method: string,
     params: Array<string | number | unknown>
   ): Promise<T> {
+    dbg("RPC Query: ", method, params);
     const res = await fetch(this.rpcUrl, {
       method: "POST",
       body: JSON.stringify({
@@ -365,8 +366,8 @@ export class Nwaku {
       }),
       headers: new Headers({ "Content-Type": "application/json" }),
     });
-    dbg(`Response received for ${method} call: `, res, "params: ", params);
     const json = await res.json();
+    dbg(`RPC Response: `, res, json);
     return json.result;
   }
 
