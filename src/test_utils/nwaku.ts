@@ -11,13 +11,13 @@ import { Multiaddr, multiaddr } from "multiaddr";
 import PeerId from "peer-id";
 import portfinder from "portfinder";
 
-import { hexToBytes } from "../lib/utils";
-import { DefaultPubSubTopic } from "../lib/waku";
-import { WakuMessage } from "../lib/waku_message";
-import * as proto from "../proto/waku/v2/message";
+import { hexToBytes } from "../lib/utils.js";
+import { DefaultPubSubTopic } from "../lib/waku.js";
+import { WakuMessage } from "../lib/waku_message/index.js";
+import * as proto from "../proto/waku/v2/message.js";
 
-import { existsAsync, mkdirAsync, openAsync } from "./async_fs";
-import waitForLine from "./log_file";
+import { existsAsync, mkdirAsync, openAsync } from "./async_fs.js";
+import waitForLine from "./log_file.js";
 
 const dbg = debug("waku:nwaku");
 
