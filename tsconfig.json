@@ -4,7 +4,7 @@
     "target": "es2015",
     "outDir": "build/esm",
     "rootDir": "src",
-    "moduleResolution": "node",
+    "moduleResolution": "node16",
     "module": "es2020",
     "declaration": true,
     "sourceMap": true,
